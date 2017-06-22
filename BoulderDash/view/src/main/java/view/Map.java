@@ -5,12 +5,26 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+/*
+ * <H1> The map class</H1> 
+ * We will implement the IMAP interface in order to use the methods in other classes.
+ * 
+ */
 public class Map implements IMap{
 	
+	
 	private Scanner m;
+	/*
+	 * 
+Instantiates a matrix so that we can manage our map.
+	 */
 	private String map2d[][] = new String[21][40];
 	private String map1d[] = new String[40];
 	private Image sand, wall, empty, rock, diamond, monster;
+	/*
+	 * 
+The different sprites according to the displacements.
+	 */
 	private Image perso_face, perso_back, perso_left, perso_right;
 	private Image coal_ore, iron_ore, diamond_ore, gold_ore, emerald_ore, redstone_ore, lapis_ore;
 	private Menu menu;
@@ -19,8 +33,17 @@ public class Map implements IMap{
 	
 	
 	public Map(){
+		
+		/*
+		 * 
+Instantiating the menu.
+		 */
 		try{
 			menu = new Menu();
+			/*
+			 * 
+			We recover the skin and level.
+			 */
 			skin = menu.getSkin();
 			level = menu.getLevel();
 		} catch (Exception e) {
@@ -28,6 +51,12 @@ public class Map implements IMap{
 		}
 		
 		try {
+			
+			/*
+			 * 
+One recovers the path, transforms it into an image and makes it available to the other classes.
+This is done in all other methods
+			 */
 			String basePath = new File("").getAbsolutePath();
 			String path = basePath + "\\..\\view\\" + skin + "\\wall.png";
 			ImageIcon img = new ImageIcon(path);
