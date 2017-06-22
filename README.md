@@ -1,10 +1,12 @@
 # BoulderDash
 
 ## Member
-Remy
-Aurélien
-Thibault
-Pierre
+
+[Aurelien Klein ](https://github.com/AurelienKlein/)
+[Thibault Poly ](https://github.com/thibault62)
+[Remy Vancamp ](https://github.com/remyCESI/)
+[Pierre Geeraert ](https://github.com/pierre-geeraert/)
+
 
 ![Banner](pc.png)
 
