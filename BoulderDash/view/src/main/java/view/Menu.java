@@ -12,6 +12,7 @@ public class Menu {
 	
 	
 	/**
+	 * 
 	 * Constructor Menu() will create a new menu to let the user pick a skin and a level for the game.
 	 * It will also set 'level' to a number corresponding to the map; and set 'skin' to the selected skin.
 	 * @throws IOException 
