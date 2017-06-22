@@ -1,0 +1,11 @@
+title MCV
+
+User->view: KeyPress
+view->Controler: Order
+Controler->Model: Order
+Model->Model: execute
+Controler->view: Notify
+view->Model: request
+
+Model->view: update
+Model->User: Loop

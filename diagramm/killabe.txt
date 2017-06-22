@@ -1,0 +1,13 @@
+title killable
+
+diamond->Heroes: fall
+Heroes->Heroes: die
+
+monster->Heroes: touch
+Heroes->Heroes: die
+
+rock->monster: fall
+monster->monster: die
+
+rock->Heroes: fall
+Heroes->Heroes: die

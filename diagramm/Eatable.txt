@@ -1,0 +1,6 @@
+title eatable
+
+Heroes->sand: eat
+sand->Heroes: give free spaces
+Heroes->diamond: eat
+diamond->Heroes: 10 more points
