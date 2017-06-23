@@ -33,12 +33,6 @@ It is the mark of the aggregation between player and Board
  */
 	private Player p;
 	private javax.swing.Timer timer;
-/**
- * 
-Attribute resulting from the aggregation of monster and Board
-
- */
-	private Monster mm;
 	
 	
 	private Image image, dir;
@@ -77,16 +71,6 @@ Attribute that will be incremented during the collection in order to have a scor
 		 * He will instantiate a player
 		 */
 		p = new Player();
-		/*
-		 *He will instantiate a monster,
-		 */
-		
-		/**
-		 * 
-		 * He will instantiate a new thread
-		 */
-		Thread thr = new Thread(mm);
-		thr.start();
 		/**
 		 *
 		Adding a keyboard earpiece
@@ -169,11 +153,8 @@ We configure our display with the choice of the size of the font of our score, i
 		}
 		/**
 		 * Change the sprite behind the player.
-<<<<<<< HEAD
-=======
 		 * Gravity will check if a rock need to fall.
 		 * When it can move to the next box, it will replace the sprite with a vacuum depending on the type of character. So we can manage the score.
->>>>>>> branch 'master' of https://github.com/AurelienKlein/ProjetBoulderDash
 		 */
 		switch (m.getMap(p.getX(), p.getY())) {
 		case "X" : m.setMap(p.getX(), p.getY(), "_"); break;
@@ -199,18 +180,6 @@ Management as well as color.
 		End(g);
 		g.drawString("Score : " + score, 192, 990);
 		
-		/*
-		 * The stoppage of the game is done when the score is 100.
-		 */
-		if (score == 100) {
-			g.setFont(new Font("Courier", Font.BOLD, 70));
-			g.drawString("Well Played !", 760, 504);
-			/*try {
-				TimeUnit.SECONDS.sleep(2);
-			} catch (InterruptedException e) {
-				System.out.println("TimeSleep fail");
-			}*/
-		}
 	}
 	
 	
@@ -227,28 +196,6 @@ Management as well as color.
 		default : break;
 		}
 	}
-		
-	/*
-	 * @param x, y 
-	 * 
-The element falls until it collides with another element, such as a wall, of the dirt.
-	 */
-	public void Gravity(int x, int y) {
-		
-		if (m.getMap(x, y-1).equals("O")) {
-			while (m.getMap(x, y).equals("_")) {
-				//Gravity gra = new Gravity(x, y);
-				//gra.start();
-				//timer2 = new Timer(25, this);
-				//timer2.setInitialDelay(500);
-				//timer2.start();
-				m.setMap(x, y-1, "_");
-				m.setMap(x, y, "O");
-				y++;
-			}
-		}
-	}
-	
 	
 	public void heart(Graphics g) {
 		this.g = g;
