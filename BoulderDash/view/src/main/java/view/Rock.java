@@ -32,10 +32,20 @@ Attribute of aggregation Map rock
 					switch (m.getMap(x, y+1)) {
 					case "_" : m.setMap(x, y, "_"); m.setMap(x, y+1, "O"); break;
 					case "Y" : m.setMap(x, y, "_"); m.setMap(x, y+1, "O"); break;
-					case "O" : cascade(x, y); break;
+					case "O" : cascade(x, y, "O"); break;
+					case "V" : cascade(x, y, "O"); break;
 					default : break;
 					}
-				}
+				}/*
+				if (m.getMap(x, y).equals("V")) {
+					switch (m.getMap(x, y+1)) {
+					case "_" : m.setMap(x, y, "_"); m.setMap(x, y+1, "V"); break;
+					case "Y" : m.setMap(x, y, "_"); m.setMap(x, y+1, "V"); break;
+					case "O" : cascade(x, y, "V"); break;
+					case "V" : cascade(x, y, "V"); break;
+					default : break;
+					}
+				}*/
 			}
 		}
 	}
@@ -49,14 +59,14 @@ Allows the element to cascade if access is possible.
 	 * 
 	 */
 	
-	private void cascade(int x, int y) {
+	private void cascade(int x, int y, String sprite) {
 		if (m.getMap(x+1, y).equals("_") && m.getMap(x+1, y+1).equals("_")) {
 			m.setMap(x, y, "_");
-			m.setMap(x+1, y+1, "O");
+			m.setMap(x+1, y+1, sprite);
 		}
 		else if (m.getMap(x-1, y).equals("_") && m.getMap(x-1, y+1).equals("_")) {
 			m.setMap(x, y, "_");
-			m.setMap(x-1, y+1, "O");
+			m.setMap(x-1, y+1, sprite);
 		}
 	}
 }
