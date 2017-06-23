@@ -2,7 +2,7 @@ package main;
 
 import view.Game;
 
-/**
+/**4
  * <h1>The Class Main.</h1>
  *
  * @author Groupe remy thibault pierre aurelien 

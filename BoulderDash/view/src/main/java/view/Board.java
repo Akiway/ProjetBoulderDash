@@ -68,7 +68,7 @@ Attribute that will be incremented during the collection in order to have a scor
 		this.p = new Player();
 		TimerTask rr = new Rock(this.m);
 		timerRock = new java.util.Timer(true);
-		timerRock.scheduleAtFixedRate(rr, 0, 750);
+		timerRock.scheduleAtFixedRate(rr, 0, 500);
 		/*
 		 * He will instantiate a map
 		 */
@@ -225,6 +225,8 @@ Management as well as color.
 		case 4 : if (score >= 100) {stop = true; g.drawString("Well Played !", 760, 504);} break;
 		case 5 : if (score >= 60) {stop = true; g.drawString("Well Played !", 760, 504);} break;
 		default : break;
+		}
+	}
 		
 	/*
 	 * @param x, y 
@@ -354,6 +356,10 @@ The recovered key is placed in condition.
 				}
 			}
 			if(keycode == KeyEvent.VK_ESCAPE) System.exit(0);
+			}
+			}
+			}
+			}
 		}
 	}
 }
