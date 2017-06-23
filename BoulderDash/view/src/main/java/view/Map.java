@@ -8,12 +8,25 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 public class Map extends AbstractDAO {
+/*
+ * <H1> The map class</H1> 
+ * We will implement the IMAP interface in order to use the methods in other classes.
+ * 
+ */
 	
+	/*
+	 * 
+Instantiates a matrix so that we can manage our map.
+	 */
 	private String map2d[][] = new String[21][40];
 	private String map1d[] = new String[40];
 	private Image sand, wall, empty, rock, diamond, monster, redDiamond, redDiamondT;
 	private Image perso_face, perso_back, perso_left, perso_right, blood;
 	private Image coal_ore, iron_ore, diamond_ore, gold_ore, emerald_ore, redstone_ore, lapis_ore, diamondT, heart, heartB, heartL, nyancat;
+	/*
+	 * 
+The different sprites according to the displacements.
+	 */
 	private Menu menu;
 	private String skin, mapString = "";
 	private int level;
@@ -21,8 +34,17 @@ public class Map extends AbstractDAO {
 	
 	
 	public Map(){
+		
+		/*
+		 * 
+Instantiating the menu.
+		 */
 		try{
 			menu = new Menu();
+			/*
+			 * 
+			We recover the skin and level.
+			 */
 			skin = menu.getSkin();
 			setLevel(menu.getLevel());
 		} catch (Exception e) {
@@ -30,6 +52,12 @@ public class Map extends AbstractDAO {
 		}
 		
 		try {
+			
+			/*
+			 * 
+One recovers the path, transforms it into an image and makes it available to the other classes.
+This is done in all other methods
+			 */
 			String basePath = new File("").getAbsolutePath();
 			String path = basePath + "\\..\\view\\" + skin + "\\wall.png";
 			ImageIcon img = new ImageIcon(path);
@@ -332,3 +360,4 @@ public class Map extends AbstractDAO {
 		this.level = level;
 	}
 }
+

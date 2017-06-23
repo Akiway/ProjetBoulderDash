@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
@@ -8,22 +9,59 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 import javax.swing.*;
+/**
+ * 
+ * @author remy
+ * 
+ * <H1> Board class </H1> 
+ * @see Jpanel To allow display in a window with the available methods
+ * 
+ *
+ */
 
 public class Board extends JPanel implements ActionListener{
-
 	
+/**
+ * 
+
+Attribute from the class map and private. It is an aggregation
+ */
 	private Map m;
+/**
+ * 
+It is the mark of the aggregation between player and Board	
+ */
 	private Player p;
 	private javax.swing.Timer timer;
+/**
+ * 
+Attribute resulting from the aggregation of monster and Board
+
+ */
+	private Monster mm;
+	
+	
 	private Image image, dir;
 	private boolean cheat = false, stop = false, alive = true;
+	
+	/**
+	 * 
+It allows to say change state because it is a boolean type, it will be used to activate the ability to cheat in order to suppress collisions
+	 */
 	private String cht = "";
 	private int score = 0, scoreDiamond = 0, scoreRedDiamond = 0, heart = 3;
 	private ArrayList<TimerTask> monsters;
 	private java.util.Timer timerMonster, timerRock;
 	private Graphics g;
 	
+	/**
+	 * 
+Attribute that will be incremented during the collection in order to have a score that is updated
+	 */
 	
+/*
+ * 	The constructor of Board 
+ */
 	public Board() {
 		this.monsters = new ArrayList();
 		this.m = new Map();
@@ -31,7 +69,28 @@ public class Board extends JPanel implements ActionListener{
 		TimerTask rr = new Rock(this.m);
 		timerRock = new java.util.Timer(true);
 		timerRock.scheduleAtFixedRate(rr, 0, 750);
+		/*
+		 * He will instantiate a map
+		 */
+		m = new Map();
+		/*
+		 * He will instantiate a player
+		 */
+		p = new Player();
+		/*
+		 *He will instantiate a monster,
+		 */
 		
+		/**
+		 * 
+		 * He will instantiate a new thread
+		 */
+		Thread thr = new Thread(mm);
+		thr.start();
+		/**
+		 *
+		Adding a keyboard earpiece
+		 */
 		addKeyListener(new Action());
 		setFocusable(true);
 		dir = this.m.getPerso_face();
@@ -61,7 +120,12 @@ public class Board extends JPanel implements ActionListener{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		
+		/*
+		 * 
+		 * 
+Loop to interpret characters by displaying sprites through a case switch. We recover the character in our matrix and we put it in parameter of our switch.
+
+		 */
 		for (int x = 0; x<40; x++) {
 			for (int y = 0; y<21; y++) {
 				
@@ -85,6 +149,13 @@ public class Board extends JPanel implements ActionListener{
 				g.drawImage(image, x*48, y*48, 48, 48, null);
 			}
 		}
+		
+		/*
+		 * 
+We configure our display with the choice of the size of the font of our score, its color and the display of the score thanks to the method DrawString.
+
+		 * 
+		 */
 		g.setFont(new Font("Courier", Font.BOLD, 20));
 		g.setColor(Color.WHITE);
 		g.drawString(cht, 48, 990);
@@ -98,6 +169,11 @@ public class Board extends JPanel implements ActionListener{
 		}
 		/**
 		 * Change the sprite behind the player.
+<<<<<<< HEAD
+=======
+		 * Gravity will check if a rock need to fall.
+		 * When it can move to the next box, it will replace the sprite with a vacuum depending on the type of character. So we can manage the score.
+>>>>>>> branch 'master' of https://github.com/AurelienKlein/ProjetBoulderDash
 		 */
 		switch (m.getMap(p.getX(), p.getY())) {
 		case "X" : m.setMap(p.getX(), p.getY(), "_"); break;
@@ -108,6 +184,10 @@ public class Board extends JPanel implements ActionListener{
 		case "O" : if (cheat == false) {stop = true; alive = false;} break;
 		}
 		
+		/*
+		 * 
+Management as well as color.
+		 */
 		g.setFont(new Font("Courier", Font.BOLD, 30));
 		g.drawString("Score : " + score, 170, 990);
 		
@@ -117,6 +197,20 @@ public class Board extends JPanel implements ActionListener{
 		diamond(g);
 		g.setFont(new Font("Courier", Font.BOLD, 70));
 		End(g);
+		g.drawString("Score : " + score, 192, 990);
+		
+		/*
+		 * The stoppage of the game is done when the score is 100.
+		 */
+		if (score == 100) {
+			g.setFont(new Font("Courier", Font.BOLD, 70));
+			g.drawString("Well Played !", 760, 504);
+			/*try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (InterruptedException e) {
+				System.out.println("TimeSleep fail");
+			}*/
+		}
 	}
 	
 	
@@ -131,6 +225,25 @@ public class Board extends JPanel implements ActionListener{
 		case 4 : if (score >= 100) {stop = true; g.drawString("Well Played !", 760, 504);} break;
 		case 5 : if (score >= 60) {stop = true; g.drawString("Well Played !", 760, 504);} break;
 		default : break;
+		
+	/*
+	 * @param x, y 
+	 * 
+The element falls until it collides with another element, such as a wall, of the dirt.
+	 */
+	public void Gravity(int x, int y) {
+		
+		if (m.getMap(x, y-1).equals("O")) {
+			while (m.getMap(x, y).equals("_")) {
+				//Gravity gra = new Gravity(x, y);
+				//gra.start();
+				//timer2 = new Timer(25, this);
+				//timer2.setInitialDelay(500);
+				//timer2.start();
+				m.setMap(x, y-1, "_");
+				m.setMap(x, y, "O");
+				y++;
+			}
 		}
 	}
 	
@@ -160,27 +273,53 @@ public class Board extends JPanel implements ActionListener{
 			g.drawImage(m.getDiamondT(), (scoreRedDiamond+i)*48+390, 955, 48, 48, this);
 		}
 	}
-	
-	
+	/*
+	 * @see KeyAdapter
+	 * 
+This method allows us to manage the key that is preserved and act accordingly.
+*
+We will manage the display of the player according to the direction.
+	 */
 	public class Action extends KeyAdapter {
 		
 		
 		public void keyReleased(KeyEvent e) {
 			int keycode = e.getKeyCode();
-			
 			if(keycode == KeyEvent.VK_UP && !stop) {
+			/*
+			 * 
+Management of the control to take the height, one will decrement the position Y of our element.
+* 
+The recovered key is placed in condition.
+			 */
+			if(keycode == KeyEvent.VK_UP) {
 				if(!m.getMap(p.getX(), p.getY()-1).equals("H") && !m.getMap(p.getX(), p.getY()-1).equals("O") || cheat) {
 					p.move(0, -1);
 				}
 				dir = m.getPerso_back();
 			}
 			if(keycode == KeyEvent.VK_DOWN && !stop) {
+			/*
+			 * 
+Management of the control to take the down, one will increments the position Y of our element.
+* 
+The recovered key is placed in condition.
+			 */
+			if(keycode == KeyEvent.VK_DOWN) {
 				if(!m.getMap(p.getX(), p.getY()+1).equals("H") && !m.getMap(p.getX(), p.getY()+1).equals("O") || cheat) {
 					p.move(0, 1);
 				}
 				dir = m.getPerso_face();
 			}
 			if(keycode == KeyEvent.VK_LEFT && !stop) {
+			/*
+			 * 
+Management of the control to take the left, one will desincrements the position X of our element.
+* 
+The recovered key is placed in condition.
+			 */
+			
+			if(keycode == KeyEvent.VK_LEFT) {
 				if(!m.getMap(p.getX()-1, p.getY()).equals("H") && !m.getMap(p.getX()-1, p.getY()).equals("O") || cheat) {
 					p.move(-1, 0);
 				} else if (m.getMap(p.getX()-1, p.getY()).equals("O") && m.getMap(p.getX()-2, p.getY()).equals("_")) {
@@ -191,6 +330,13 @@ public class Board extends JPanel implements ActionListener{
 				dir = m.getPerso_left();
 			}
 			if(keycode == KeyEvent.VK_RIGHT && !stop) {
+			/*
+			 * 
+Management of the control to take the right, one will increments the position X of our element.
+* 
+The recovered key is placed in condition.
+			 */
+			if(keycode == KeyEvent.VK_RIGHT) {
 				if(!m.getMap(p.getX()+1, p.getY()).equals("H") && !m.getMap(p.getX()+1, p.getY()).equals("O") || cheat) {
 					p.move(1, 0);
 				} else if (m.getMap(p.getX()+1, p.getY()).equals("O") && m.getMap(p.getX()+2, p.getY()).equals("_")) {
