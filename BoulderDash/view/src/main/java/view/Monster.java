@@ -6,12 +6,35 @@ import java.util.TimerTask;
 
 public class Monster extends TimerTask {
 
+	/*
+	 * 
+Attribute indicating the coordinate of an element in a double input array.
+	 */
 	private int x, y;
+	/*
+	 * It will serve us to instantiate a Random.
+	 * 
+	 */
 	private Random r;
+	
+	/*
+	 * 
+We have two private attributes from two aggregations, Map and Player class
+	 */
 	private Map m;
 	private Player p;
+	
+	/*
+	 * 
+It serves us so that the monster moves with a frequency therefore according to a time.
+	 */
 	private Timer timerMonster;
 	
+	/*
+	 * 
+It is used to launch the thread so that the monster can move independently from the game.
+	 * @see java.util.TimerTask#run()
+	 */
 	
 	@Override
 	public void run() {
@@ -47,9 +70,30 @@ public class Monster extends TimerTask {
 		this.y = y;
 	}
 	
+	/*
+	 * 
+This method allows us the displacement of the monster in a random way.
+	 */
 	public void moveM() {
+		
+		/*
+		 * 
+			Instantiation of a random
+		 */
 		r = new Random();
+		
+		/*
+		 * 
+We store the result of the random which will be put in condition of the switch case.
+		 */
 		int f = r.nextInt(4-0);
+		/*
+		 * 
+According to the result of the random, the corresponding method.
+@param f 
+		
+Result of random.
+		 */
 		
 		switch (f) {
 		case 0 : moveUp(); break;
@@ -61,6 +105,11 @@ public class Monster extends TimerTask {
 		
 	}
 	
+	/*
+	 * 
+It allows us to move the monster upwards by incrementing by one the Y.
+	 */
+	
 	public void moveUp() {
 		if(m.getMap(x, y-1).equals("_")) {
 			y = y-1;
@@ -70,6 +119,12 @@ public class Monster extends TimerTask {
 			moveM();
 		}
 	}
+	/*
+	 * 
+
+It allows us to move the monster down by incrementing by one the Y.
+	 */
+	
 	public void moveDown() {
 		if(m.getMap(x, y+1).equals("_")) {
 			y = y+1;
@@ -79,6 +134,10 @@ public class Monster extends TimerTask {
 			moveM();
 		}
 	}
+	/*
+	 * It allows us to move the monster to the left by decrementing the X.
+	 */
+	
 	public void moveLeft() {
 		if(m.getMap(x-1, y).equals("_")) {
 			x = x-1;
@@ -88,6 +147,10 @@ public class Monster extends TimerTask {
 			moveM();
 		}
 	}
+	/*
+	 * 
+It allows us to move the monster to the right by incrementing the X.
+	 */
 	public void moveRight() {
 		if(m.getMap(x+1, y).equals("_")) {
 			x = x+1;
