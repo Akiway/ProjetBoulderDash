@@ -3,11 +3,10 @@ package view;
 import javax.swing.*;
 import java.awt.Image;
 import java.io.*;
-import javax.imageio.*;
 
 public class Menu {
 	private int level = 1;
-	private String skin = "Classic";
+	private String skin = "Classic", basePath, path;
 	public Image persoMenu, diamsMenu, monsterMenu;
 	
 	
@@ -23,17 +22,18 @@ public class Menu {
 		  String[] lvl = {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5"}, skn = {"Classic", "Minecraft"};
 
 
-		  //Image persomenu = new getPerso_menu;
-		  persoMenu = ImageIO.read(new File("img/perso_menu9.png"));
-	      ImageIcon perso_menu = new ImageIcon(persoMenu);
-	      diamsMenu = ImageIO.read(new File("img/diams_menu.png"));
-	      ImageIcon diams_menu = new ImageIcon(diamsMenu);
-	      monsterMenu = ImageIO.read(new File("img/monster_menu3.png"));
-	      ImageIcon monster_menu = new ImageIcon(monsterMenu);
-/*		  ImageIcon perso_menu = new ImageIcon("img/perso_menu9.png");
-		  ImageIcon diams_menu = new ImageIcon("img/diams_menu.png");
-		  ImageIcon monster_menu = new ImageIcon("img/monster_menu3.png");
-*/
+		  basePath = new File("").getAbsolutePath();
+		  path = basePath + "\\..\\view\\img\\perso_menu9.png";
+		  ImageIcon perso_menu = new ImageIcon(path);
+		  
+		  basePath = new File("").getAbsolutePath();
+		  path = basePath + "\\..\\view\\img\\diams_menu.png";
+		  ImageIcon diams_menu = new ImageIcon(path);
+		  
+		  basePath = new File("").getAbsolutePath();
+		  path = basePath + "\\..\\view\\img\\monster_menu3.png";
+		  ImageIcon monster_menu = new ImageIcon(path);
+	      
 		  
 		  skin = (String)JOptionPane.showInputDialog(null, "Select the skin :", "BoulderDash Menu", JOptionPane.QUESTION_MESSAGE, perso_menu, skn, skn[1]);
 		  if (skin == null) System.exit(0); 

@@ -29,11 +29,5 @@ public class BoulderDash {
 		
         new Game();
         
-        /*SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            	GFrame view = new GFrame();
-            }
-        });*/
     }
 }

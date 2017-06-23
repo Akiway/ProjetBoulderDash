@@ -4,41 +4,32 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Monster implements Runnable{
+public class Monster extends TimerTask {
 
 	private int x, y;
 	private Random r;
 	private Map m;
+	private Player p;
+	private Timer timerMonster;
 	
-	/*
-	Timer tmr = new Timer();
-	TimerTask task = new TimerTask() {
-		public void run() {
-			t++;
-			moveM();
-			System.out.println(t);
-		}
-	};
 	
-	public void start() {
-		tmr.scheduleAtFixedRate(task, 500, 500);
-	}*/
-	
+	@Override
 	public void run() {
-		while (true) {
-			moveM();
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				System.out.println("sleep fail");
-			}
+		moveM();
+		if (m.getMap(x, y-1).equals("O")) {
+			m.setMap(x, y, "W");
+			m.setMap(x, y-1, "_");
+			timerMonster.cancel();
 		}
-		
 	}
 	
-	public Monster() {
-		x = 20;
-		y = 10;
+	public Monster(Map m, Player p, Timer timerMonster, int x, int y) {
+		this.m = m;
+		this.x = x;
+		this.y = y;
+		this.p = p;
+		this.timerMonster = timerMonster;
+		
 	}
 	
 	public int getX() {
@@ -59,8 +50,6 @@ public class Monster implements Runnable{
 	public void moveM() {
 		r = new Random();
 		int f = r.nextInt(4-0);
-		System.out.println(f);
-		System.out.println(m.getMap(10, 10));
 		
 		switch (f) {
 		case 0 : moveUp(); break;

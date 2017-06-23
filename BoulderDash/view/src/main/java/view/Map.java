@@ -2,29 +2,31 @@
 
 import java.awt.*;
 import java.io.*;
-import java.util.*;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
-public class Map implements IMap{
+public class Map extends AbstractDAO {
 	
-	private Scanner m;
 	private String map2d[][] = new String[21][40];
 	private String map1d[] = new String[40];
-	private Image sand, wall, empty, rock, diamond, monster;
-	private Image perso_face, perso_back, perso_left, perso_right;
-	private Image coal_ore, iron_ore, diamond_ore, gold_ore, emerald_ore, redstone_ore, lapis_ore;
+	private Image sand, wall, empty, rock, diamond, monster, redDiamond, redDiamondT;
+	private Image perso_face, perso_back, perso_left, perso_right, blood;
+	private Image coal_ore, iron_ore, diamond_ore, gold_ore, emerald_ore, redstone_ore, lapis_ore, diamondT, heart, heartB, heartL, nyancat;
 	private Menu menu;
-	private String skin;
+	private String skin, mapString = "";
 	private int level;
+    private static String sqlshowMaps   = "{call showMaps(?)}";
 	
 	
 	public Map(){
 		try{
 			menu = new Menu();
 			skin = menu.getSkin();
-			level = menu.getLevel();
+			setLevel(menu.getLevel());
 		} catch (Exception e) {
-			System.out.println(skin + level);
+			System.out.println(skin + getLevel());
 		}
 		
 		try {
@@ -141,19 +143,63 @@ public class Map implements IMap{
 			path = basePath + "\\..\\view\\" + skin + "\\redstone_ore.png";
 			img = new ImageIcon(path);
 			redstone_ore = img.getImage();
+			
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\" + skin + "\\diamond_trans.png";
+			img = new ImageIcon(path);
+			diamondT = img.getImage();
+			
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\skinClassic\\heart.png";
+			img = new ImageIcon(path);
+			heart = img.getImage();
+			
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\skinClassic\\heart_break.png";
+			img = new ImageIcon(path);
+			heartB = img.getImage();
+			
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\skinClassic\\heart_lost.png";
+			img = new ImageIcon(path);
+			heartL = img.getImage();
+
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\" + skin + "\\reddiamond.png";
+			img = new ImageIcon(path);
+			redDiamond = img.getImage();
+
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\" + skin + "\\reddiamond_trans.png";
+			img = new ImageIcon(path);
+			redDiamondT = img.getImage();
+
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\img\\blood.png";
+			img = new ImageIcon(path);
+			blood = img.getImage();
+			
+			basePath = new File("").getAbsolutePath();
+			path = basePath + "\\..\\view\\img\\nyancat_trans.png";
+			img = new ImageIcon(path);
+			nyancat = img.getImage();
 		
 		
-		openFile();
-		try{
-		readFile();
-		completeMap();
-		} catch (Exception e) {
-			System.out.println("read/complete fail");
-		}
-		closeFile();
+			try {
+				mapString = openFile(getLevel());
+			} catch (SQLException e1) {
+				System.out.println("getMapById fail");
+			}
+			try{
+				readFile();
+				completeMap();
+			} catch (Exception e) {
+				System.out.println("read/complete fail");
+			}
 	}
+
 	
-	
+
 	public Image getWall() {
 		return wall;
 	}
@@ -171,6 +217,9 @@ public class Map implements IMap{
 	}
 	public Image getMonster() {
 		return monster;
+	}
+	public Image getRedDiamond() {
+		return redDiamond;
 	}
 	
 	
@@ -195,6 +244,24 @@ public class Map implements IMap{
 	public Image getRedstone_ore() {
 		return redstone_ore;
 	}
+	public Image getDiamondT() {
+		return diamondT;
+	}
+	public Image getRedDiamondT() {
+		return redDiamondT;
+	}
+	public Image getHeart() {
+		return heart;
+	}
+	public Image getHeartB() {
+		return heartB;
+	}
+	public Image getHeartL() {
+		return heartL;
+	}
+	public Image getNyancat() {
+		return nyancat;
+	}
 	
 	
 	
@@ -210,6 +277,9 @@ public class Map implements IMap{
 	public Image getPerso_right() {
 		return perso_right;
 	}
+	public Image getBlood() {
+		return blood;
+	}
 	
 	
 	public synchronized String getMap(int x, int y) {
@@ -220,22 +290,27 @@ public class Map implements IMap{
 		map2d[y][x] = sprite;
 	}
 	
-	
-	public void openFile() {
-		try {
-			String basePath = new File("").getAbsolutePath();
-			String path = basePath + "\\..\\view\\img\\map_" + level + ".txt";
-			m = new Scanner(new File(path));
-		} catch (Exception e) {
-			System.out.println("load_map fail");
-		}
-	}
+	public static String openFile(final int id) throws SQLException {
+		
+        final CallableStatement callStatement = prepareCall(sqlshowMaps);
+		
+        callStatement.setInt(1, id);
+		
+        String mapString = "";
+        if (callStatement.execute()) {
+            final ResultSet result = callStatement.getResultSet();
+            
+            if (result.first()) {
+                mapString = result.getString("map");
+            }
+            result.close();
+        }
+        return mapString;
+    }
 	
 	public void readFile() {
-		while(m.hasNext()) {
-			for(int i = 0; i < 21; i++) {
-				map1d[i] = m.next();
-			}
+		for(int y = 0; y<21; y++) {
+			map1d[y] = mapString.substring(y*40, (y+1)*40);
 		}
 	}
 	
@@ -246,9 +321,14 @@ public class Map implements IMap{
 			}
 		}
 	}
+
+
 	
-	public void closeFile() {
-		m.close();
+	public int getLevel() {
+		return level;
 	}
-	
+
+	private void setLevel(int level) {
+		this.level = level;
+	}
 }
