@@ -50,7 +50,6 @@ Attribute of aggregation Map rock
 		}
 	}
 
-	private void cascade(int x, int y, String sprite) {
 	/*
 	 * @param x,y 
 	 * 	They are localization attributes
@@ -60,6 +59,7 @@ Allows the element to cascade if access is possible.
 	 * 
 	 */
 	
+	private void cascade(int x, int y, String sprite) {
 		if (m.getMap(x+1, y).equals("_") && m.getMap(x+1, y+1).equals("_")) {
 			m.setMap(x, y, "_");
 			m.setMap(x+1, y+1, sprite);
