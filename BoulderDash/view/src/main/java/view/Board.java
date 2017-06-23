@@ -42,6 +42,11 @@ Attribute resulting from the aggregation of monster and Board
 	
 	
 	private Image image, dir;
+	
+	/*
+	 *
+Attribute of type boolean so that one can change its state. 
+	 */
 	private boolean cheat = false, stop = false, alive = true;
 	
 	/**
@@ -95,8 +100,17 @@ Attribute that will be incremented during the collection in order to have a scor
 		setFocusable(true);
 		dir = this.m.getPerso_face();
 		
+		/*
+		 * 
+Instantiation of a timer and we launch it.
+		 */
 		this.timer = new javax.swing.Timer(10, this);
 		this.timer.start();
+		
+		/*
+		 * It allows us to spawn a monster through a loop that will scan the map and it will add if we recover a "y" add.
+		 * 
+		 */
 		for (int x = 0; x<40; x++) {
 			for (int y = 0; y<21; y++) {
 				if (m.getMap(x, y).equals("Y")) {
@@ -111,6 +125,11 @@ Attribute that will be incremented during the collection in order to have a scor
 		}
 	}
 	
+	/*
+	 * 
+	Refresh if there is an action on an element.
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}
@@ -124,10 +143,20 @@ Attribute that will be incremented during the collection in order to have a scor
 		 * 
 		 * 
 Loop to interpret characters by displaying sprites through a case switch. We recover the character in our matrix and we put it in parameter of our switch.
-
+@param x 
+	the x
 		 */
 		for (int x = 0; x<40; x++) {
+			/*
+			 * @param y
+			 * 		the y
+			 */
 			for (int y = 0; y<21; y++) {
+				
+				/*
+				 * 
+In condition we will recover the character and we treat it in a switch case.
+				 */
 				
 				switch (m.getMap(x, y)) {
 				case "X" : image = m.getSand(); break;

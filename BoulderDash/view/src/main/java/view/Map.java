@@ -30,6 +30,11 @@ The different sprites according to the displacements.
 	private Menu menu;
 	private String skin, mapString = "";
 	private int level;
+	
+	/*
+	 * 
+This attribute allows us to store the result of our stored procedure.
+	 */
     private static String sqlshowMaps   = "{call showMaps(?)}";
 	
 	
@@ -269,51 +274,112 @@ This is done in all other methods
 	public Image getEmerald_ore() {
 		return emerald_ore;
 	}
+	
+	/*
+	 * @return image
+	The getter returns us the image of the right perso
+	 */
 	public Image getRedstone_ore() {
 		return redstone_ore;
 	}
+	
+	/*
+	 * @return image
+	The getter returns us the image of the diamondT
+	 */
 	public Image getDiamondT() {
 		return diamondT;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the red DiamondT
+	 */
 	public Image getRedDiamondT() {
 		return redDiamondT;
+		/*
+		 * @return image
+		The getter returns us the image of Heart
+		 */
 	}
 	public Image getHeart() {
 		return heart;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the HeartB
+	 */
 	public Image getHeartB() {
 		return heartB;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the  HeartL
+	 */
 	public Image getHeartL() {
 		return heartL;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of Nyancat
+	 */
 	public Image getNyancat() {
 		return nyancat;
 	}
 	
-	
+	/*
+	 * @return image
+	The getter returns us the image of the face perso
+	 */
 	
 	public Image getPerso_face() {
 		return perso_face;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the back perso
+	 */
 	public Image getPerso_back() {
 		return perso_back;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the left perso
+	 */
 	public Image getPerso_left() {
 		return perso_left;
 	}
+	/*
+	 * @return image
+	The getter returns us the image of the right perso
+	 */
 	public Image getPerso_right() {
 		return perso_right;
 	}
+	/*
+	 * @return blood
+	 * 
+The getter returns us the image of the blood
+	 */
 	public Image getBlood() {
 		return blood;
 	}
 	
-	
+	/*
+	 * @param x, y 
+	 * the x
+	 * the y 
+	 * @return sprite. 
+	 */
 	public synchronized String getMap(int x, int y) {
 		String sprite = map2d[y][x];
 		return sprite;
 	}
+	/*
+	 * @param x, y , sprite
+	 * 	the x is the absciss
+	 * 	the y is the ordered 
+	 * 	The sprite is the corresponding image
+	 */
 	public void setMap(int x, int y, String sprite) {
 		map2d[y][x] = sprite;
 	}
@@ -335,12 +401,19 @@ This is done in all other methods
         }
         return mapString;
     }
-	
+	/*
+	 * 
+We fill in our simple table by taking the result of the query.
+	 */
 	public void readFile() {
 		for(int y = 0; y<21; y++) {
 			map1d[y] = mapString.substring(y*40, (y+1)*40);
 		}
 	}
+	/*
+	 * 
+It goes through the simple table to fill a matrix so that its use is simpler.
+	 */
 	
 	private void completeMap() {
 		for(int x = 0; x < 40; x++) {
@@ -351,11 +424,19 @@ This is done in all other methods
 	}
 
 
-	
+	/*
+	 * 
+This is a level getter.
+	 */
 	public int getLevel() {
 		return level;
 	}
-
+/*
+ * @param level 
+ * 	the level
+ * 
+We initialize our level with the level that is going to be in parameter		
+ */
 	private void setLevel(int level) {
 		this.level = level;
 	}
